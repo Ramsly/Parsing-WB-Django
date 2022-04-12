@@ -116,6 +116,9 @@ SIMPLE_JWT = {
 }
 
 
+AUTH_USER_MODEL = 'custom_user.CustomUser'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
