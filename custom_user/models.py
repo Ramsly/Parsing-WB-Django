@@ -7,8 +7,8 @@ from .managers import AccountManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
-    Кастомизированная модель пользователя
-    Поля: email, username, is_staff, is_active
+    Кастомизированная модель пользователя.
+    Поля: email, username, is_staff, is_active.
     """
     email = models.EmailField(max_length=155, unique=True)
     username = models.CharField(max_length=100, unique=True)
