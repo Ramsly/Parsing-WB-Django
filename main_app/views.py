@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 
 from .models import Card
-from .serializers import CardSerialization
+from .serializers import CardSerializer
 
 
 class CardModelViewSet(viewsets.ModelViewSet):
+    """ModelViewSet для модели Card."""
     queryset = Card.objects.all()
-    serializer_class = CardSerialization
+    serializer_class = CardSerializer
