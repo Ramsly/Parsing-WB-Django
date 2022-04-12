@@ -2,7 +2,10 @@ from django.db import models
 
 
 class Card(models.Model):
-    """Модель карточки товара"""
+    """
+    Модель карточки товара
+    Поля: article, title, price_without_disc, price_with_disc, brand, provider
+    """
     article = models.IntegerField(default=0)
     title = models.CharField(default='', max_length=255)
     price_without_disc = models.IntegerField(default=0)
