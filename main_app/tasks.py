@@ -1,20 +1,18 @@
 import requests
 from bs4 import BeautifulSoup as Bs
 
+from fullstats_test.celery import app
 from .models import Card
-
-header = {
-    "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)\
- Chrome/100.0.4896.75 Safari/537.36 Edg/100.0.1185.36'
-}
+from fullstats_test.settings import HEADER
 
 
-def get_html(url, header, params=None):
-    response = requests.get(url=url, headers=header, params=params)
+def get_html(url, params=None):
+    response = requests.get(url=url, headers=HEADER, params=params)
     html = response.text
     return html
 
 
+@app.task
 def get_content(html):
     soup = Bs(html, 'html.parser')
     items = soup.find_all('div', class_='same-part-kt__info-wrap')
