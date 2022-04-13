@@ -13,7 +13,7 @@ def get_html(url, params=None):
 
 
 @app.task
-def get_content(html):
+def parse(html):
     soup = Bs(html, 'html.parser')
     items = soup.find_all('div', class_='same-part-kt__info-wrap')
     info = []
