@@ -34,7 +34,7 @@ def get_content(html):
              'brand': [i.span.text for i in soup.select('.same-part-kt__header')][0],
              'title': [i.text for i in soup.select('.same-part-kt__header span')][1],
              'article': int(soup.find('span', id='productNmId').get_text(strip=True)),
-             # 'provider': soup.select_one('.tooltipster-content p')
+             # TODO: 'provider': soup.select_one('.tooltipster-content p')
              })
     for data in info:
         Card.objects.create(article=data['article'],
