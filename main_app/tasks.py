@@ -6,7 +6,7 @@ from .models import Card
 from fullstats_test.settings import HEADER
 
 
-def get_html(url, params=None):
+def get_html(url, params=None):  # TODO: Delete this func and convert to one
     response = requests.get(url=url, headers=HEADER, params=params)
     html = response.text
     return html
