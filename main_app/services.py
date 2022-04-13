@@ -22,9 +22,9 @@ def get_content(html):
     for item in items:
         info.append(
             {'price_with_disc': int(soup.find('span', class_='price-block__final-price')
-                                            .get_text(strip=True)
-                                            .replace("₽", "")
-                                            .replace("\xa0", "")),
+                                    .get_text(strip=True)
+                                    .replace("₽", "")
+                                    .replace("\xa0", "")),
 
              'price_without_disc': int(soup.find('del', class_='price-block__old-price')
                                        .get_text(strip=True)
@@ -32,7 +32,14 @@ def get_content(html):
                                        .replace("\xa0", "")),
 
              'brand': [i.span.text for i in soup.select('.same-part-kt__header')][0],
-             'title': " ".join([i.text for i in soup.select('.same-part-kt__header span')[1]]),
+             'title': [i.text for i in soup.select('.same-part-kt__header span')][1],
              'article': int(soup.find('span', id='productNmId').get_text(strip=True)),
              # 'provider': soup.select_one('.tooltipster-content p')
              })
+    for data in info:
+        Card.objects.create(article=data['article'],
+                            title=data['title'],
+                            price_without_disc=data['price_without_disc'],
+                            price_with_disc=data['price_with_disc'],
+                            brand=data['brand'],
+                            provider='Me')
