@@ -27,6 +27,18 @@ services:
          - db
       env_file:
          - .env
+   celery:
+      restart: always
+      build:
+         context: .
+      command: celery -A fullstats beat -l INFO
+      volumes:
+         - .:/django
+      container_name: celery_beat
+      depends_on:
+         - db
+         - redis
+         - web
 
 volumes:
    postgres_data:
