@@ -24,21 +24,23 @@ def parse():
 
     Ничего не возвращает.
     """
-    for card in Card.objects.all():
+    for card in Card.objects.all().distinct('article'):
         soup = Bs(get_html(f'https://www.wildberries.ru/catalog/{card.article}/detail.aspx'), 'html.parser')
         items = soup.find_all('div', class_='same-part-kt__info-wrap')
         info = []
         for item in items:
+            price_without_disc = item.find('del', class_='price-block__old-price')
+            if not price_without_disc:
+                price_without_disc = 0
+            else:
+                price_without_disc = int(price_without_disc.get_text(strip=True).replace("₽", "").replace("\xa0", ""))
             info.append(
-                {'price_with_disc': int(soup.find('span', class_='price-block__final-price')
+                {'price_with_disc': int(item.find('span', class_='price-block__final-price')
                                         .get_text(strip=True)
                                         .replace("₽", "")
                                         .replace("\xa0", "")),
 
-                 'price_without_disc': int(soup.find('del', class_='price-block__old-price')
-                                           .get_text(strip=True)
-                                           .replace("₽", "")
-                                           .replace("\xa0", "")),
+                 'price_without_disc': price_without_disc,
 
                  'brand': [i.span.text for i in soup.select('.same-part-kt__header')][0],
                  'title': [i.text for i in soup.select('.same-part-kt__header span')][1],
@@ -52,7 +54,6 @@ def parse():
                                 price_with_disc=data['price_with_disc'],
                                 brand=data['brand'],
                                 provider='Me')
-
 
 # TODO: Add filters to drf
 # TODO: Add tests
