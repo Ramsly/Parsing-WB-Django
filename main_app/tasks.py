@@ -47,12 +47,10 @@ def parse():
                  'brand': [i.span.text for i in soup.select('.same-part-kt__header')][0],
                  'title': [i.text for i in soup.select('.same-part-kt__header span')][1],
                  'article': int(soup.find('span', id='productNmId').get_text(strip=True)),
-                 # TODO: 'provider': soup.select_one('.tooltipster-content p')
                  })
         for data in info:
             Card.objects.create(article=data['article'],
                                 title=data['title'],
                                 price_without_disc=data['price_without_disc'],
                                 price_with_disc=data['price_with_disc'],
-                                brand=data['brand'],
-                                provider='Me')
+                                brand=data['brand'])
