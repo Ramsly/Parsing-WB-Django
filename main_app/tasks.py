@@ -20,6 +20,8 @@ def get_html(url: str, params=None) -> str:
 @app.task()
 def parse():
     """
+    Ничего не принимает
+
     Парсинг WB и запись в бд.
 
     Ничего не возвращает.
@@ -54,6 +56,3 @@ def parse():
                                 price_with_disc=data['price_with_disc'],
                                 brand=data['brand'],
                                 provider='Me')
-
-# TODO: Add filters to drf
-# TODO: Add tests
