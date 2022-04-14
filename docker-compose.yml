@@ -3,24 +3,29 @@ version: "3.9"
 services:
    redis:
       image: redis:alpine
-      container_name: redis
+      container_name: redis_fullstats
    db:
       image: postgres
       volumes:
          - postgres_data:/var/lib/postgresql/data
       environment:
-         - POSTGRES_NAME=fullstats
+         - POSTGRES_DB=fullstats
          - POSTGRES_USER=fullstats_admin
          - POSTGRES_PASSWORD=qwerty12345
    web:
       build: .
-      command: python manage.py runserver 0.0.0.0:8000
+      entrypoint: ["/bin/sh","-c"]
+      command:
+         - | 
+            python manage.py migrate
+            python manage.py makemigrations
+            python manage.py runserver 0.0.0.0:8000
       volumes:
          - .:/fullstats
       ports:
          - "8000:8000"
       environment:
-         - POSTGRES_NAME=fullstats
+         - POSTGRES_DB=fullstats
          - POSTGRES_USER=fullstats_admin
          - POSTGRES_PASSWORD=qwerty12345
       depends_on:
@@ -31,10 +36,14 @@ services:
       restart: always
       build:
          context: .
-      command: celery -A fullstats beat -l INFO
+      entrypoint: ["/bin/sh","-c"]
+      command:
+         - |
+            celery -A fullstats_test worker --loglevel=info 
+            celery -A fullstats_test beat -l INFO
       volumes:
          - .:/django
-      container_name: celery_beat
+      container_name: celery_beat_fullstats
       depends_on:
          - db
          - redis

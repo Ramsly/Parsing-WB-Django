@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'fullstats',
         'USER': 'fullstats_admin',
         'PASSWORD': 'qwerty12345',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

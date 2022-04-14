@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'parse': {
         'task': 'main_app.tasks.parse',
-        'schedule': crontab(hour='*/1'),
+        'schedule': crontab(minute='*/1'),
     }
 }

@@ -6,14 +6,17 @@ from .models import Card
 from fullstats_test.settings import HEADER
 
 
-def get_html(url, params=None):  # TODO: Delete this func and convert to one
-    response = requests.get(url=url, headers=HEADER, params=params)
-    html = response.text
-    return html
+# def get_html(url, params=None)
+#     response = requests.get(url=url, headers=HEADER, params=params)
+#     html = response.text
+#     return html
 
 
 @app.task
-def parse(html):
+def parse():
+    """Парсинг WB и запись в бд."""
+    response = requests.get(url='https://www.wildberries.ru/catalog/8151147/detail.aspx', headers=HEADER, params=None)
+    html = response.text
     soup = Bs(html, 'html.parser')
     items = soup.find_all('div', class_='same-part-kt__info-wrap')
     info = []
