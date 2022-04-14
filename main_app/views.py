@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Card
 from .serializers import CardSerializer
+from .filters import TimeFilter
 
 
 class CardModelViewSet(viewsets.ModelViewSet):
@@ -11,5 +12,6 @@ class CardModelViewSet(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filter_fields = ['article', 'brand']
-    ordering_fields = ['article', 'brand']
+    filterset_class = TimeFilter
+    filter_fields = ['article', 'brand', 'date']
+    ordering_fields = ['article', 'brand', 'date']
