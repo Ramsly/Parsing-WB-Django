@@ -36,11 +36,7 @@ services:
       restart: always
       build:
          context: .
-      entrypoint: ["/bin/sh","-c"]
-      command:
-         - |
-            celery -A fullstats_test worker --loglevel=info 
-            celery -A fullstats_test beat -l INFO
+      command: celery -A fullstats_test worker --loglevel=info -B
       volumes:
          - .:/django
       container_name: celery_beat_fullstats

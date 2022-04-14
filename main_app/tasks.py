@@ -6,15 +6,24 @@ from .models import Card
 from fullstats_test.settings import HEADER
 
 
-# def get_html(url, params=None)
+# def get_html(url: str, params: dict) -> str:
+#     """
+#     Возвращает html страницу строкой.
+#
+#     Принимает параметры url: str, params: dict.
+#     """
 #     response = requests.get(url=url, headers=HEADER, params=params)
 #     html = response.text
 #     return html
 
 
-@app.task
+@app.task()
 def parse():
-    """Парсинг WB и запись в бд."""
+    """
+    Парсинг WB и запись в бд.
+
+    Ничего не возвращает.
+    """
     response = requests.get(url='https://www.wildberries.ru/catalog/8151147/detail.aspx', headers=HEADER, params=None)
     html = response.text
     soup = Bs(html, 'html.parser')
