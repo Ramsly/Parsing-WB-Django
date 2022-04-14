@@ -51,3 +51,8 @@ def parse():
                             price_with_disc=data['price_with_disc'],
                             brand=data['brand'],
                             provider='Me')
+
+
+# TODO: Add filters to drf
+# TODO: Add tests
+# TODO: Add read_only fields
