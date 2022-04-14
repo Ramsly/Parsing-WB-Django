@@ -4,7 +4,7 @@ from main_app.models import Card
 
 
 class TimeFilter(filters.FilterSet):
-    data = filters.RangeFilter()
+    date = filters.DateTimeFromToRangeFilter()
 
     class Meta:
         model = Card
