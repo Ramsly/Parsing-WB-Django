@@ -12,6 +12,7 @@ class Card(models.Model):
     price_with_disc = models.IntegerField(default=0, blank=True)
     brand = models.CharField(default='', max_length=255, blank=True)
     provider = models.CharField(default='', max_length=255, blank=True)
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.title} - {self.article}'
