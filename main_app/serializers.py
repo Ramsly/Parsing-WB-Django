@@ -7,5 +7,4 @@ class CardSerializer(serializers.ModelSerializer):
     """Сериализация для модели Card."""
     class Meta:
         model = Card
-        fields = ['article']
-        read_only_fields = ['title', 'price_without_disc', 'price_with_disc', 'brand', 'provider']
+        fields = '__all__'
