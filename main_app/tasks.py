@@ -56,4 +56,3 @@ def parse():
 
 # TODO: Add filters to drf
 # TODO: Add tests
-# TODO: Add read_only fields
