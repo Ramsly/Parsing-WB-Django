@@ -6,15 +6,15 @@ from .models import Card
 from fullstats_test.settings import HEADER
 
 
-# def get_html(url: str, params: dict) -> str:
-#     """
-#     Возвращает html страницу строкой.
-#
-#     Принимает параметры url: str, params: dict.
-#     """
-#     response = requests.get(url=url, headers=HEADER, params=params)
-#     html = response.text
-#     return html
+def get_html(url: str, params=None) -> str:
+    """
+    Возвращает html страницу строкой.
+
+    Принимает параметры url: str, params.
+    """
+    response = requests.get(url=url, headers=HEADER, params=params)
+    html = response.text
+    return html
 
 
 @app.task()
@@ -24,9 +24,7 @@ def parse():
 
     Ничего не возвращает.
     """
-    response = requests.get(url='https://www.wildberries.ru/catalog/8151147/detail.aspx', headers=HEADER, params=None)
-    html = response.text
-    soup = Bs(html, 'html.parser')
+    soup = Bs(get_html('https://www.wildberries.ru/catalog/8151147/detail.aspx'), 'html.parser')
     items = soup.find_all('div', class_='same-part-kt__info-wrap')
     info = []
     for item in items:
