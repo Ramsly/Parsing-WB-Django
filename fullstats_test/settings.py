@@ -15,6 +15,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,7 +47,6 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
 
-    'custom_user',
     'main_app',
 ]
 
@@ -125,9 +126,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }
-
-
-AUTH_USER_MODEL = 'custom_user.CustomUser'
 
 
 # Internationalization

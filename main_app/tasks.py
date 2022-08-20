@@ -8,9 +8,10 @@ from fullstats_test.settings import HEADER
 
 def get_html(url: str, params=None) -> str:
     """
-    Возвращает html страницу строкой.
+    Return html page as str
 
-    Принимает параметры url: str, params.
+    :param str url: website url
+    :param params:
     """
     response = requests.get(url=url, headers=HEADER, params=params)
     html = response.text

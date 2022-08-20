@@ -9,12 +9,11 @@ services:
       volumes:
          - postgres_data:/var/lib/postgresql/data
       environment:
-         - POSTGRES_DB=fullstats
-         - POSTGRES_USER=fullstats_admin
-         - POSTGRES_PASSWORD=qwerty12345
+         - POSTGRES_DB=${DB_NAME}
+         - POSTGRES_USER=${DB_USER}
+         - POSTGRES_PASSWORD=${DB_PASSWORD}
    web:
       build: .
-      entrypoint: ["/bin/sh","-c"]
       command:
          - | 
             python manage.py makemigrations
@@ -24,18 +23,13 @@ services:
          - .:/fullstats
       ports:
          - "8000:8000"
-      environment:
-         - POSTGRES_DB=fullstats
-         - POSTGRES_USER=fullstats_admin
-         - POSTGRES_PASSWORD=qwerty12345
       depends_on:
          - db
       env_file:
          - .env
    celery:
       restart: always
-      build:
-         context: .
+      build: .
       command: celery -A fullstats_test worker --loglevel=info -B
       volumes:
          - .:/django
