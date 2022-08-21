@@ -23,17 +23,29 @@ services:
          - db
       env_file:
          - .env
-   celery:
+   celery_worker:
       restart: always
       build: .
-      command: celery -A fullstats_test worker --loglevel=info -B
+      command: celery -A fullstats_test worker -l INFO
       volumes:
-         - .:/django
-      container_name: celery_beat_fullstats
+         - .:/fullstats_test
+      container_name: celery_work_serv_chan
       depends_on:
          - db
          - redis
          - web
+   celery_beat:
+      restart: always
+      build: .
+      command: celery -A fullstats_test beat
+      volumes:
+         - .:/fullstats_test
+      container_name: celery_beat_serv_chan
+      depends_on:
+         - db
+         - redis
+         - web
+         - celery_worker
 
 volumes:
    postgres_data:
