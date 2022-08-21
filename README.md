@@ -1,4 +1,4 @@
-# Parsing WB (Fullstats test)
+# Parsing WB
 
 ### Функционал:
 
