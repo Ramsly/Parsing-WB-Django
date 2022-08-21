@@ -19,21 +19,21 @@ def get_html(url: str, params=None) -> str:
 
 
 @app.task()
-def parse():
+def parse() -> None:
     """
-    Ничего не принимает
+    Parsing WB items
 
-    Парсинг WB и запись в бд.
-
-    Ничего не возвращает.
+    :returns: None
+    :rtype: None
     """
     for card in Card.objects.all().distinct('article'):
         soup = Bs(get_html(f'https://www.wildberries.ru/catalog/{card.article}/detail.aspx'), 'html.parser')
         items = soup.find_all('div', class_='same-part-kt__info-wrap')
         info = []
+        arr = []
         for item in items:
             price_without_disc = item.find('del', class_='price-block__old-price')
-            if not price_without_disc:
+            if price_without_disc is None:
                 price_without_disc = 0
             else:
                 price_without_disc = int(price_without_disc.get_text(strip=True).replace("₽", "").replace("\xa0", ""))
@@ -50,8 +50,12 @@ def parse():
                  'article': int(soup.find('span', id='productNmId').get_text(strip=True)),
                  })
         for data in info:
-            Card.objects.create(article=data['article'],
-                                title=data['title'],
-                                price_without_disc=data['price_without_disc'],
-                                price_with_disc=data['price_with_disc'],
-                                brand=data['brand'])
+            cards = Card(article=data['article'],
+                         title=data['title'],
+                         price_without_disc=data['price_without_disc'],
+                         price_with_disc=data['price_with_disc'],
+                         brand=data['brand'])
+            arr.append(cards)
+        Card.objects.bulk_create(arr)
+        arr.clear()
+        info.clear()
